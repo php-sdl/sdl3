@@ -1,5 +1,5 @@
 {
-    "name": "php-io-extensions/sdl3",
+    "name": "php-sdl/sdl3",
     "type": "php-ext",
     "description": "PHP-Controllable SDL3 Rendering Extension",
     "license": "MIT",
