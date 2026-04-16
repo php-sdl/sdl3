@@ -2,7 +2,15 @@ PHP_ARG_ENABLE(sdl3, whether to enable sdl3, [ --enable-sdl3   Enable Sdl3])
 
 if test "$PHP_SDL3" = "yes"; then
 
-	
+	dnl GCC 14 promoted several long-standing warnings to hard errors by default
+	dnl (-Wincompatible-pointer-types, -Wint-conversion, -Wimplicit-function-declaration,
+	dnl -Wimplicit-int). Zephir-generated C code (both kernel/ and .zep.c files) trips
+	dnl these in spots that are dead-code or type-punned but runtime-safe, and has
+	dnl built cleanly on gcc <= 13 and clang for years. Demote them back to warnings
+	dnl so newer distros (Debian Trixie, Ubuntu 24.10+, Fedora 40+) can build the
+	dnl extension. Each flag is silently ignored by compilers that don't know it.
+	CFLAGS="$CFLAGS -Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration -Wno-error=implicit-int"
+
 	AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
 	if test "x$PKG_CONFIG" = "xno"; then
 		AC_MSG_RESULT([pkg-config not found])
