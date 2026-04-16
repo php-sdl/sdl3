@@ -34,41 +34,20 @@ jobs:
         if: runner.os == 'macOS'
         run: brew install sdl3
 
-      - name: Install SDL3 (Ubuntu)
+      - name: Install SDL3 (Linux)
+        if: runner.os == 'Linux'
+        id: sdl
+        uses: libsdl-org/setup-sdl@main
+        with:
+          version: 3-latest
+          build-type: Release
+          install-linux-dependencies: true
+          add-to-environment: true
+
+      - name: Expose SDL3 to pkg-config (Linux)
         if: runner.os == 'Linux'
         run: |
-          # Try the distro package first; fall back to building from source if < 3.4.0
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends libsdl3-dev pkg-config || true
-
-          SDL3_VERSION=$(pkg-config --modversion sdl3 2>/dev/null || echo "0.0.0")
-          REQUIRED="3.4.0"
-
-          version_lt() {
-            [ "$(printf '%s\n' "$1" "$2" | sort -V | head -n1)" = "$1" ] && [ "$1" != "$2" ]
-          }
-
-          if version_lt "$SDL3_VERSION" "$REQUIRED"; then
-            echo "apt SDL3 version ($SDL3_VERSION) is older than $REQUIRED — building from source"
-            sudo apt-get install -y --no-install-recommends \
-              cmake build-essential git libgl-dev libasound2-dev \
-              libpulse-dev libx11-dev libxext-dev libwayland-dev \
-              libxkbcommon-dev libdbus-1-dev
-
-            git clone --depth 1 --branch release-3.4.x \
-              https://github.com/libsdl-org/SDL.git /tmp/SDL3
-            cmake -S /tmp/SDL3 -B /tmp/SDL3/build \
-              -DCMAKE_BUILD_TYPE=Release \
-              -DSDL_SHARED=ON \
-              -DSDL_STATIC=OFF \
-              -DCMAKE_INSTALL_PREFIX=/usr/local
-            cmake --build /tmp/SDL3/build -j$(nproc)
-            sudo cmake --install /tmp/SDL3/build
-            sudo ldconfig
-          fi
-
-          echo "PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:${PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
-          echo "LD_LIBRARY_PATH=/usr/local/lib:${LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
+          echo "PKG_CONFIG_PATH=${{ steps.sdl.outputs.prefix }}/lib/pkgconfig:${PKG_CONFIG_PATH}" >> "$GITHUB_ENV"
 
       # ── Build ────────────────────────────────────────────────────────────────
       - name: Build extension
