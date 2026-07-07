@@ -165,6 +165,15 @@ ensure_sdl3() {
     ok "SDL3 ${final_ver} ready"
 }
 
+ensure_opengl_runtime_debian() {
+    step "🖼️  Ensuring OpenGL/EGL/GLES runtime packages..."
+    require_cmd apt-get
+    $SUDO apt-get update -q
+    $SUDO apt-get install -y --no-install-recommends libgl1 libegl1 libgles2 \
+        || die "Failed to install required OpenGL runtime packages (libgl1 libegl1 libgles2)."
+    ok "OpenGL runtime packages are present"
+}
+
 # ---------------------------------------------------------------------------
 # Dependency: PHP build headers
 # ---------------------------------------------------------------------------
@@ -219,6 +228,7 @@ ok "gcc / make present"
 
 ensure_php_dev
 ensure_sdl3
+ensure_opengl_runtime_debian
 
 # ---------------------------------------------------------------------------
 # Locate php-config and extension dir

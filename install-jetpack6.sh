@@ -147,6 +147,26 @@ ensure_sdl3() {
     ok "SDL3 $(pkg-config --modversion sdl3) ready"
 }
 
+ensure_opengl_runtime_jetpack() {
+    step "🖼️  Verifying NVIDIA OpenGL/EGL/GLES runtime stack..."
+
+    if ! command -v ldconfig >/dev/null 2>&1; then
+        die "ldconfig is required to verify JetPack OpenGL runtime libraries."
+    fi
+
+    local cache
+    cache="$(ldconfig -p 2>/dev/null || true)"
+    echo "$cache" | grep -q "libGL.so" || die "Missing libGL.so in linker cache; JetPack OpenGL runtime looks incomplete."
+    echo "$cache" | grep -q "libEGL.so" || die "Missing libEGL.so in linker cache; JetPack EGL runtime looks incomplete."
+    echo "$cache" | grep -q "libGLESv2.so" || die "Missing libGLESv2.so in linker cache; JetPack GLES runtime looks incomplete."
+
+    if echo "$cache" | grep -qi "nvidia"; then
+        ok "NVIDIA GL stack detected in linker cache"
+    else
+        ok "Core GL/EGL/GLES libs detected (NVIDIA tag not explicit in cache output)"
+    fi
+}
+
 # ---------------------------------------------------------------------------
 # PHP dev headers check
 # ---------------------------------------------------------------------------
@@ -197,6 +217,7 @@ ok "gcc / make present"
 
 ensure_php_dev
 ensure_sdl3
+ensure_opengl_runtime_jetpack
 
 # ---------------------------------------------------------------------------
 # Locate php-config and extension dir

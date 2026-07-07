@@ -3,7 +3,7 @@
     "name": "sdl3",
     "description": "PHP-Controllable SDL3 Rendering Extension",
     "author": "Project Saturn Studios, LLC",
-    "version": "0.2.4",
+    "version": "0.5.0",
     "package-dependencies": {
         "sdl3": "*"
     },
@@ -28,12 +28,12 @@
         "nonexistent-class": true
     },
     "optimizations": {
-        "call-gatherer-pass": true,
-        "check-invalid-reads": true,
-        "constant-folding": true,
-        "local-context-pass": true,
-        "static-constant-class-folding": true,
-        "static-type-inference": true,
-        "static-type-inference-second-pass": true
+        "call-gatherer-pass": false,
+        "check-invalid-reads": false,
+        "constant-folding": false,
+        "local-context-pass": false,
+        "static-constant-class-folding": false,
+        "static-type-inference": false,
+        "static-type-inference-second-pass": false
     }
 }

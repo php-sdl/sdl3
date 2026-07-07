@@ -23,6 +23,8 @@
 
 
 
+zend_class_entry *sdl3_sdl_audio_sdlaudio_ce;
+zend_class_entry *sdl3_sdl_dialog_sdldialog_ce;
 zend_class_entry *sdl3_sdl_events_sdlcategories_ce;
 zend_class_entry *sdl3_sdl_events_sdlclipboardevents_ce;
 zend_class_entry *sdl3_sdl_events_sdldisplayevents_ce;
@@ -35,6 +37,9 @@ zend_class_entry *sdl3_sdl_events_sdlmouse_ce;
 zend_class_entry *sdl3_sdl_events_sdlquit_ce;
 zend_class_entry *sdl3_sdl_events_sdlscancodetables_ce;
 zend_class_entry *sdl3_sdl_events_sdlwindowevents_ce;
+zend_class_entry *sdl3_sdl_gpu_sdlgpu_ce;
+zend_class_entry *sdl3_sdl_input_sdlgamepad_ce;
+zend_class_entry *sdl3_sdl_input_sdljoystick_ce;
 zend_class_entry *sdl3_sdl_render_sdlrender_ce;
 zend_class_entry *sdl3_sdl_sdl_ce;
 zend_class_entry *sdl3_sdl_sdlassert_ce;
@@ -45,6 +50,7 @@ zend_class_entry *sdl3_sdl_sdlproperties_ce;
 zend_class_entry *sdl3_sdl_sdlutils_ce;
 zend_class_entry *sdl3_sdl_surface_sdlsurface_ce;
 zend_class_entry *sdl3_sdl_timer_sdltimer_ce;
+zend_class_entry *sdl3_sdl_video_sdlgl_ce;
 zend_class_entry *sdl3_sdl_video_sdlvideo_ce;
 
 ZEND_DECLARE_MODULE_GLOBALS(sdl3)
@@ -57,6 +63,8 @@ static PHP_MINIT_FUNCTION(sdl3)
 {
 	REGISTER_INI_ENTRIES();
 	zephir_module_init();
+	ZEPHIR_INIT(Sdl3_SDL_Audio_SDLAudio);
+	ZEPHIR_INIT(Sdl3_SDL_Dialog_SDLDialog);
 	ZEPHIR_INIT(Sdl3_SDL_Events_SDLCategories);
 	ZEPHIR_INIT(Sdl3_SDL_Events_SDLClipboardEvents);
 	ZEPHIR_INIT(Sdl3_SDL_Events_SDLDisplayEvents);
@@ -69,6 +77,9 @@ static PHP_MINIT_FUNCTION(sdl3)
 	ZEPHIR_INIT(Sdl3_SDL_Events_SDLQuit);
 	ZEPHIR_INIT(Sdl3_SDL_Events_SDLScancodeTables);
 	ZEPHIR_INIT(Sdl3_SDL_Events_SDLWindowEvents);
+	ZEPHIR_INIT(Sdl3_SDL_Gpu_SDLGPU);
+	ZEPHIR_INIT(Sdl3_SDL_Input_SDLGamepad);
+	ZEPHIR_INIT(Sdl3_SDL_Input_SDLJoystick);
 	ZEPHIR_INIT(Sdl3_SDL_Render_SDLRender);
 	ZEPHIR_INIT(Sdl3_SDL_SDL);
 	ZEPHIR_INIT(Sdl3_SDL_SDLAssert);
@@ -79,6 +90,7 @@ static PHP_MINIT_FUNCTION(sdl3)
 	ZEPHIR_INIT(Sdl3_SDL_SDLUtils);
 	ZEPHIR_INIT(Sdl3_SDL_Surface_SDLSurface);
 	ZEPHIR_INIT(Sdl3_SDL_Timer_SDLTimer);
+	ZEPHIR_INIT(Sdl3_SDL_Video_SDLGL);
 	ZEPHIR_INIT(Sdl3_SDL_Video_SDLVideo);
 	
 	return SUCCESS;

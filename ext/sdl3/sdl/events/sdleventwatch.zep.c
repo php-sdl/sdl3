@@ -137,7 +137,7 @@ PHP_METHOD(Sdl3_SDL_Events_SDLEventWatch, SDLAddEventWatch)
 {
 	zend_long watch_id = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *callback = NULL, callback_sub, cb;
+	zval *callback, callback_sub, cb;
 
 	ZVAL_UNDEF(&callback_sub);
 	ZVAL_UNDEF(&cb);
@@ -198,7 +198,7 @@ PHP_METHOD(Sdl3_SDL_Events_SDLEventWatch, SDLRemoveEventWatch)
 PHP_METHOD(Sdl3_SDL_Events_SDLEventWatch, SDLFilterEvents)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *callback = NULL, callback_sub, cb;
+	zval *callback, callback_sub, cb;
 
 	ZVAL_UNDEF(&callback_sub);
 	ZVAL_UNDEF(&cb);

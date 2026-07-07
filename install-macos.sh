@@ -96,6 +96,22 @@ ensure_sdl3_macos() {
     ok "SDL3 installed and detected"
 }
 
+ensure_opengl_macos() {
+    step "🖼️  Verifying OpenGL runtime (macOS framework)..."
+
+    if [ -d "/System/Library/Frameworks/OpenGL.framework" ]; then
+        ok "OpenGL.framework found at /System/Library/Frameworks/OpenGL.framework"
+        return
+    fi
+
+    if [ -n "${SDKROOT:-}" ] && [ -d "${SDKROOT}/System/Library/Frameworks/OpenGL.framework" ]; then
+        ok "OpenGL.framework found in SDKROOT"
+        return
+    fi
+
+    die "OpenGL.framework was not found. This runtime is expected to be built into macOS."
+}
+
 header
 
 # Preflight
@@ -116,6 +132,7 @@ fi
 ok "Found zephir: $ZEPHIR"
 
 ensure_sdl3_macos
+ensure_opengl_macos
 
 PHP_VER_MM="$(php -r 'echo PHP_MAJOR_VERSION.".".PHP_MINOR_VERSION;')"
 PHP_VER_NN="$(php -r 'echo PHP_MAJOR_VERSION.PHP_MINOR_VERSION;')"

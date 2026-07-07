@@ -44,7 +44,9 @@ if test "$PHP_SDL3" = "yes"; then
 	fi
 
 	AC_DEFINE(HAVE_SDL3, 1, [Whether you have Sdl3])
-	sdl3_sources="sdl3.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c sdl3/sdl/events/sdlcategories.zep.c
+	sdl3_sources="sdl3.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c sdl3/sdl/audio/sdlaudio.zep.c
+	sdl3/sdl/dialog/sdldialog.zep.c
+	sdl3/sdl/events/sdlcategories.zep.c
 	sdl3/sdl/events/sdlclipboardevents.zep.c
 	sdl3/sdl/events/sdldisplayevents.zep.c
 	sdl3/sdl/events/sdldropevents.zep.c
@@ -56,6 +58,9 @@ if test "$PHP_SDL3" = "yes"; then
 	sdl3/sdl/events/sdlquit.zep.c
 	sdl3/sdl/events/sdlscancodetables.zep.c
 	sdl3/sdl/events/sdlwindowevents.zep.c
+	sdl3/sdl/gpu/sdlgpu.zep.c
+	sdl3/sdl/input/sdlgamepad.zep.c
+	sdl3/sdl/input/sdljoystick.zep.c
 	sdl3/sdl/render/sdlrender.zep.c
 	sdl3/sdl/sdl.zep.c
 	sdl3/sdl/sdlassert.zep.c
@@ -66,10 +71,11 @@ if test "$PHP_SDL3" = "yes"; then
 	sdl3/sdl/sdlutils.zep.c
 	sdl3/sdl/surface/sdlsurface.zep.c
 	sdl3/sdl/timer/sdltimer.zep.c
+	sdl3/sdl/video/sdlgl.zep.c
 	sdl3/sdl/video/sdlvideo.zep.c "
 	PHP_NEW_EXTENSION(sdl3, $sdl3_sources, $ext_shared,, -I/opt/homebrew/include/SDL3 -I/usr/local/include/SDL3 $PHP_SDL3_INCS )
 	PHP_ADD_BUILD_DIR([$ext_builddir/kernel/])
-	for dir in "sdl3/sdl sdl3/sdl/events sdl3/sdl/render sdl3/sdl/surface sdl3/sdl/timer sdl3/sdl/video"; do
+	for dir in "sdl3/sdl sdl3/sdl/audio sdl3/sdl/dialog sdl3/sdl/events sdl3/sdl/gpu sdl3/sdl/input sdl3/sdl/render sdl3/sdl/surface sdl3/sdl/timer sdl3/sdl/video"; do
 		PHP_ADD_BUILD_DIR([$ext_builddir/$dir])
 	done
 	PHP_SUBST(SDL3_SHARED_LIBADD)
